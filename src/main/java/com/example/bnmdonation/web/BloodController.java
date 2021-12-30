@@ -8,16 +8,14 @@ import com.example.bnmdonation.service.BloodResponseService;
 import com.example.bnmdonation.service.MedReqService;
 import com.example.bnmdonation.service.MedResponseService;
 import com.example.bnmdonation.web.dto.BloodRegisterDto;
+import com.example.bnmdonation.web.dto.UpdateBloodRegisterDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.lang.reflect.Type;
@@ -149,33 +147,41 @@ public class BloodController {
         }
     }
     @PostMapping("/blood_update")
-    public String update(@ModelAttribute BloodRegisterDto bloodRegisterDto,HttpSession session){
+    public String update(@ModelAttribute UpdateBloodRegisterDto updateBloodRegisterDto, Model model,HttpSession session){
         Authentication auto = SecurityContextHolder.getContext().getAuthentication();
         Object principle = auto.getPrincipal();
         String username =((UserDetails)principle).getUsername();
         User user = userRepository.findByEmail(username);
         long userid = user.getId();
         BloodRequest bloodRequest = new BloodRequest();
-        bloodRequest.setNickName(bloodRegisterDto.getNickName());
-        bloodRequest.setContact(bloodRegisterDto.getContact());
-        bloodRequest.setBgn(bloodRegisterDto.getBgn());
-        bloodRequest.setHospital(bloodRegisterDto.getHospital());
-        bloodRequest.setHosLocation(bloodRegisterDto.getHosLocation());
-        bloodRequest.setQuantity(bloodRegisterDto.getQuantity());
+        bloodRequest.setId(updateBloodRegisterDto.getId());
+        bloodRequest.setNickName(updateBloodRegisterDto.getNickName());
+        bloodRequest.setContact(updateBloodRegisterDto.getContact());
+        bloodRequest.setBgn(updateBloodRegisterDto.getBgn());
+        bloodRequest.setHospital(updateBloodRegisterDto.getHospital());
+        bloodRequest.setHosLocation(updateBloodRegisterDto.getHosLocation());
+        bloodRequest.setQuantity(updateBloodRegisterDto.getQuantity());
         bloodRequest.setUserid(userid);
         bloodReqService.addbloodReq(bloodRequest);
 //        bloodRequest.s(user);
         session.setAttribute("msg","Request Update successfully........");
-        return "redirect:/blood_request";
+        model.addAttribute("user",user);
+        return "index";
     }
     @GetMapping("/delete/{id}/{type}")
-    public String delete(@PathVariable int id,@PathVariable String type){
+    public String delete(@PathVariable int id,Model model,@PathVariable String type){
+        Authentication auto = SecurityContextHolder.getContext().getAuthentication();
+        Object principle = auto.getPrincipal();
+        String username =((UserDetails)principle).getUsername();
+        User user = userRepository.findByEmail(username);
         String check="blood";
         if(type.equals(check)){
             bloodReqService.delete(id);
+            model.addAttribute("user",user);
             return "/index";
         }else{
             medReqService.delete(id);
+            model.addAttribute("user",user);
             return "/index";
         }
     }

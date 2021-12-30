@@ -24,7 +24,7 @@
                     <a class="nav-link active" aria-current="page" href="/blood_request">View All Blood Request</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/homepage">Homepage</a>
+                    <a class="nav-link active" aria-current="page" href="/">Homepage</a>
                 </li>
             </ul>
         </div>
@@ -39,7 +39,7 @@
                 <div class="card-body">
                     <h4 class="text-center text-primary">Edit Blood Request</h4>
                     <form th:action=@{/blood_update} method="post" th:object="${blood}">
-                        <input type="hidden" th:value="blood.id" name="id">
+                        <input type="hidden" name="id" th:value="${blood.id}">
                         <div class="form-group">
                             <label>Enter Nickname</label>
                             <input type="text" class="form-control" name="NickName" th:value="${blood.nickName}">

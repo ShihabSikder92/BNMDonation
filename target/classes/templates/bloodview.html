@@ -93,7 +93,7 @@
             <!--            <th th:text="${m.company}"></th>-->
             <!--            <th th:text="${m.quantity}"></th>-->
             <!--            <th th:text="${m.location}"></th>-->
-            <td><a class="btn btn-sm btn-primary">Contact</a>
+            <td><a class="btn btn-sm btn-primary" th:href="@{/profile/{name}(name=${m.email})}"> View Profile</a>
                 <a class="btn btn-sm btn-danger ">Message</a></td>
         </tr>
         </tbody>

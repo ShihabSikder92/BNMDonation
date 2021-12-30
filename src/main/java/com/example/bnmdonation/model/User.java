@@ -93,4 +93,15 @@ public class User {
 //	public void setBloodRequests(List<BloodRequest> bloodRequests) {
 //		this.bloodRequests = bloodRequests;
 //	}
+
+	@Override
+	public String toString() {
+		return "User{" +
+				"id=" + id +
+				", firstName='" + firstName + '\'' +
+				", lastName='" + lastName + '\'' +
+				", email='" + email + '\'' +
+				", password='" + password + '\'' +
+				'}';
+	}
 }

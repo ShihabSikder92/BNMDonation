@@ -34,7 +34,7 @@
 						<a class="nav-link active" aria-current="page" href="/blood_request">View All Blood Request</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link active" aria-current="page" href="/profile">Profile</a>
+						<a class="nav-link active" aria-current="page" th:href="@{/profile/{name}(name=${user.email})}">Profile</a>
 					</li>
 					<li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
 				</ul>
