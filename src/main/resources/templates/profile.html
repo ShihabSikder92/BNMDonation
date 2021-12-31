@@ -85,8 +85,8 @@
             <!--            <th th:text="${m.quantity}"></th>-->
             <!--            <th th:text="${m.location}"></th>-->
             <td><a class="btn btn-sm btn-primary"  th:href="@{/view/{id}/{type}(id=${m.id},type='med')}">View Response</a>
-<!--                <a class="btn btn-sm btn-primary" th:href="@{/update/{id}/{type}(id=${m.id},type='med')}">Update</a>-->
-                <a class="btn btn-sm btn-danger ">Delete</a></td>
+                <a class="btn btn-sm btn-primary" th:href="@{/update/{id}/{type}(id=${m.id},type='med')}">Update</a>
+                <a class="btn btn-sm btn-danger " th:href="@{/delete/{id}/{type}(id=${m.id},type='med')}">Delete</a></td>
         </tr>
         </tbody>
     </table>

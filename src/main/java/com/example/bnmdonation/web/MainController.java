@@ -57,12 +57,10 @@ public class MainController {
 	}
 	@GetMapping("/profile/{name}")
 	public String profile(Model model,@PathVariable String name){
-//		Authentication auto = SecurityContextHolder.getContext().getAuthentication();
-//		Object principle = auto.getPrincipal();
-//		String username =((UserDetails)principle).getUsername();
+		Authentication auto = SecurityContextHolder.getContext().getAuthentication();
+		Object principle = auto.getPrincipal();
+		String username =((UserDetails)principle).getUsername();
 		User user = userRepository.findByEmail(name);
-		System.out.println(name);
-		System.out.println(user.toString());
 		model.addAttribute("details",user);
 		List<BloodRequest> bloodRequests = bloodReqService.getRequestByUserID(user.getId());
 		List<BloodDetails> blood = new ArrayList<>(bloodRequests.size());
@@ -88,21 +86,27 @@ public class MainController {
 		}
 		model.addAttribute("med",med);
 		model.addAttribute("blood",blood);
-		return "profile";
+		System.out.println(username);
+		System.out.println(name);
+		if(username.equals(name)){
+			return "profile";
+		}else return "others_profile";
 	}
 	@GetMapping("/update/{id}/{type}")
 	public String update(@PathVariable int id, @PathVariable String type, Model model){
 		String check="blood";
 		if(type.equals(check)){
 			BloodRequest bloodRequest = bloodReqService.getRequestbyID(id);
-			System.out.println(bloodRequest.toString());
-			System.out.println(bloodRequest.getId());
 			model.addAttribute("blood",bloodRequest);
 			return "/update_blood_Request";
 		}else{
 			MedRequest medRequest = medReqService.getRequestbyID(id);
 			model.addAttribute("med",medRequest);
-			return "redirect:/update";
+			return "/update_med_Request";
 		}
+	}
+	@GetMapping("/gg_wp")
+	public String ggwp(){
+		return  "/ggwp";
 	}
 }

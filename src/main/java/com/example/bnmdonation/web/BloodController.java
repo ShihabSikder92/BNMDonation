@@ -7,7 +7,9 @@ import com.example.bnmdonation.service.BloodReqService;
 import com.example.bnmdonation.service.BloodResponseService;
 import com.example.bnmdonation.service.MedReqService;
 import com.example.bnmdonation.service.MedResponseService;
+import com.example.bnmdonation.web.dto.BloodDetails;
 import com.example.bnmdonation.web.dto.BloodRegisterDto;
+import com.example.bnmdonation.web.dto.MedDetails;
 import com.example.bnmdonation.web.dto.UpdateBloodRegisterDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -163,13 +165,38 @@ public class BloodController {
         bloodRequest.setQuantity(updateBloodRegisterDto.getQuantity());
         bloodRequest.setUserid(userid);
         bloodReqService.addbloodReq(bloodRequest);
+        model.addAttribute("details",user);
+        List<BloodRequest> bloodRequests = bloodReqService.getRequestByUserID(user.getId());
+        List<BloodDetails> blood = new ArrayList<>(bloodRequests.size());
+        for(int i = 0 ; i < bloodRequests.size();i++){
+            BloodDetails x = new BloodDetails();
+            x.setId(bloodRequests.get(i).getId());
+            x.setBgn(bloodRequests.get(i).getBgn());
+            x.setHospital(bloodRequests.get(i).getHospital());
+            x.setHosLocation(bloodRequests.get(i).getHosLocation());
+            x.setQuantity(bloodRequests.get(i).getQuantity());
+            blood.add(x);
+        }
+        List<MedRequest> medRequests = medReqService.getRequestByUserID(user.getId());
+        System.out.println(medRequests.size());
+        List<MedDetails> med = new ArrayList<>(medRequests.size());
+        for(int i = 0 ; i < medRequests.size();i++){
+            MedDetails x = new MedDetails();
+            x.setId(medRequests.get(i).getId());
+            x.setMedName(medRequests.get(i).getMedName());
+            x.setCompany(medRequests.get(i).getCompany());
+            x.setQuantity(medRequests.get(i).getQuantity());
+            med.add(x);
+        }
+        model.addAttribute("med",med);
+        model.addAttribute("blood",blood);
 //        bloodRequest.s(user);
         session.setAttribute("msg","Request Update successfully........");
-        model.addAttribute("user",user);
-        return "index";
+        //model.addAttribute("user",user);
+        return "profile";
     }
     @GetMapping("/delete/{id}/{type}")
-    public String delete(@PathVariable int id,Model model,@PathVariable String type){
+    public String delete(@PathVariable int id,Model model,@PathVariable String type,HttpSession session){
         Authentication auto = SecurityContextHolder.getContext().getAuthentication();
         Object principle = auto.getPrincipal();
         String username =((UserDetails)principle).getUsername();
@@ -177,12 +204,36 @@ public class BloodController {
         String check="blood";
         if(type.equals(check)){
             bloodReqService.delete(id);
-            model.addAttribute("user",user);
-            return "/index";
         }else{
             medReqService.delete(id);
-            model.addAttribute("user",user);
-            return "/index";
         }
+        model.addAttribute("details",user);
+        List<BloodRequest> bloodRequests = bloodReqService.getRequestByUserID(user.getId());
+        List<BloodDetails> blood = new ArrayList<>(bloodRequests.size());
+        for(int i = 0 ; i < bloodRequests.size();i++){
+            BloodDetails x = new BloodDetails();
+            x.setId(bloodRequests.get(i).getId());
+            x.setBgn(bloodRequests.get(i).getBgn());
+            x.setHospital(bloodRequests.get(i).getHospital());
+            x.setHosLocation(bloodRequests.get(i).getHosLocation());
+            x.setQuantity(bloodRequests.get(i).getQuantity());
+            blood.add(x);
+        }
+        List<MedRequest> medRequests = medReqService.getRequestByUserID(user.getId());
+        System.out.println(medRequests.size());
+        List<MedDetails> med = new ArrayList<>(medRequests.size());
+        for(int i = 0 ; i < medRequests.size();i++){
+            MedDetails x = new MedDetails();
+            x.setId(medRequests.get(i).getId());
+            x.setMedName(medRequests.get(i).getMedName());
+            x.setCompany(medRequests.get(i).getCompany());
+            x.setQuantity(medRequests.get(i).getQuantity());
+            med.add(x);
+        }
+        model.addAttribute("med",med);
+        model.addAttribute("blood",blood);
+        session.setAttribute("msg","Request Delete successfully........");
+        //model.addAttribute("user",user);
+        return "/profile";
     }
 }

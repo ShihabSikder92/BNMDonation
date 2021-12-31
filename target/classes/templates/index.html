@@ -3,17 +3,16 @@
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <meta charset="ISO-8859-1">
-<title>Registration and Login App</title>
-
+<title>Homepage</title>
+	<link href="/static/css/main.css" rel="stylesheet">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
 	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
 	crossorigin="anonymous">
-
 </head>
 <body>
 	<!-- create navigation bar ( header) -->
-	<nav class="navbar navbar-inverse navbar-fixed-top">
+	<nav class="navbar navbar-inverse navbar-fixed-top headroom">
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed"
@@ -34,6 +33,12 @@
 						<a class="nav-link active" aria-current="page" href="/blood_request">View All Blood Request</a>
 					</li>
 					<li class="nav-item">
+						<a class="nav-link active" aria-current="page" href="/gg_wp">List of Blood donor</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link active" aria-current="page" href="/gg_wp">Forum</a>
+					</li>
+					<li class="nav-item">
 						<a class="nav-link active" aria-current="page" th:href="@{/profile/{name}(name=${user.email})}">Profile</a>
 					</li>
 					<li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Logout</a></li>
@@ -44,10 +49,80 @@
 
 	<br>
 	<br>
+	<header id="head">
+		<div class="container">
+			<div class="row">
+				<h1 class="lead">Donation will cost you nothing, but it will save a life!</h1>
+			</div>
+		</div>
+	</header>
 
-	<div class="container">
-		<h1> It's actually working</h1>
-		Welcome <span sec:authentication="principal.username"> User</span>
+
+	<!-- Highlights - jumbotron -->
+	<div class="jumbotron top-space">
+		<div class="container">
+
+			<h3 class="text-center thin">Reasons to Donate Blood and Medicine</h3>
+
+			<div class="row">
+				<div class="col-md-3 col-sm-6 highlight">
+					<div class="h-caption"><h4><i class="fa fa-cogs fa-5"></i>Stimulates Blood Cell Production.</h4></div>
+					<div class="h-body text-center">
+						<p></p>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-6 highlight">
+					<div class="h-caption"><h4><i class="fa fa-flash fa-5"></i>Blood donation helps to maintain healthy liver.</h4></div>
+					<div class="h-body text-center">
+						<p></p>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-6 highlight">
+					<div class="h-caption"><h4><i class="fa fa-heart fa-5"></i>All Medicine are getting used</h4></div>
+					<div class="h-body text-center">
+						<p></p>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-6 highlight">
+					<div class="h-caption"><h4><i class="fa fa-smile-o fa-5"></i>Poor people are getting help</h4></div>
+					<div class="h-body text-center">
+						<p></p>
+					</div>
+				</div>
+			</div> <!-- /row  -->
+
+		</div>
 	</div>
+	<!-- /Highlights -->
+
+
+	<footer id="footer" class="top-space">
+
+		<div class="footer1">
+			<div class="container">
+				<div class="row">
+
+					<div class="col-md-3 widget">
+						<h3 class="widget-title">Contact</h3>
+						<div class="widget-body">
+							<p>01646335825<br>
+								<a href="mailto:#">Shihab.uddin.sikder@g.bracu.ac.bd</a><br>
+								<br>
+								Solamid,Vtara,Dhaka-1212,Bangladesh
+							</p>
+						</div>
+					</div>
+
+					<div class="col-md-6 widget">
+						<h3 class="widget-title">About the Project</h3>
+						<div class="widget-body">
+							<p>My very first Solo Project On anything. In this project, I use java for</p>
+						</div>
+					</div>
+
+				</div> <!-- /row of widgets -->
+			</div>
+		</div>
+	</footer>
 </body>
 </html>
